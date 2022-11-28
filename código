@@ -4,4 +4,12 @@ cd vm_teste
 vagrant init centos/7
 vagrant up
 vagrant ssh
-yum ansible 
+yum install -y ansible
+nano /etc/ansible/hosts
+exit
+cd .ssh
+ssh-keygen
+nano id_rsa.pub
+exit
+nano autorized_keys
+ansible -m shell -a "command" "grupo" 
