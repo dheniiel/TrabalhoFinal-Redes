@@ -1,0 +1,7 @@
+apt install vagrant
+mkdir vm_teste 
+cd vm_teste
+vagrant init centos/7
+vagrant up
+vagrant ssh
+yum ansible 
