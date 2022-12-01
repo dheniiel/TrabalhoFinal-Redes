@@ -1,0 +1,4 @@
+create_containers: 2
+default_container_name: prometheus
+default_container_image: bitnami/prometheus
+default_container_command: build -t 

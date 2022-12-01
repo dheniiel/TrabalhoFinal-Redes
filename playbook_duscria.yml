@@ -1,0 +1,39 @@
+-hosts: servers
+ remote_user: ansible
+ vars_files:
+        - vars/default.yml
+
+ tasks:
+        -name: PACOTE APT
+         apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+
+        -name: PACOTE PARA FUNCIONAR
+         apt: name{{ item }} state=latest update_cache=yes
+         loop: ['apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+
+        -name: ADICIONANDO GPG APT KEY
+         apt_key:
+                url: https://download.docker.com/linux/ubuntu/gpg
+                state: present
+
+        -name: ADICIONANDO REPOSITORIO DOCKER
+         apt_repository:
+                repo: deb https://download.docker.com/linux/ubuntu bionic stable
+                state: present
+
+        -name: INSTALAÇÃO DOCKER
+         apt: update_cache=yes name=docker-ce state=latest
+
+        -name:  INSTALANDO MÓDULO DOCKER
+         pip:
+                name: docker
+
+        -name: PUXANDO IMAGES DOCKER
+         docker_image:
+                name: "{{ default_container_image }}"
+                source: pull
+
+        -name: CRIAR CONTEINERS
+         docker_container:
+                name: "{{ default_container_name }}{{ item }}"
+                image: "{{ default_container_name }}"
