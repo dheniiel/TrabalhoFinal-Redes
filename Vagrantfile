@@ -1,4 +1,4 @@
-# host2
+# master
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
-  config.vm.network "forwarded_port", guest: 70, host: 7070
+  config.vm.network "forwarded_port", guest: 60, host: 6060
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
@@ -33,7 +33,7 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.1.9"
+  config.vm.network "private_network", ip: "192.168.1.10"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -64,6 +64,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
      apt-get update
      apt-add-repository --yes --update ppa:ansible/ansible
-     apt-get install -y ansible
-  SHELL
+     apt-get install -y ansible 
+     ansible.playbook "server.yml"
+     ansible.verbose = "vvv"
+   SHELL
 end
